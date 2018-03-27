@@ -11,6 +11,7 @@
 		195B50C9206A1968008D711C /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 195B509F206A193C008D711C /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		195B50CD206A197D008D711C /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 195B50A7206A193C008D711C /* RxCocoa.framework */; };
 		195B50CE206A197D008D711C /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 195B50A7206A193C008D711C /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		195B50D2206A227F008D711C /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195B50D1206A227F008D711C /* TabViewController.swift */; };
 		19FE0C4E2068D7CE002FEBF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FE0C4D2068D7CE002FEBF4 /* AppDelegate.swift */; };
 		19FE0C502068D7CE002FEBF4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FE0C4F2068D7CE002FEBF4 /* ViewController.swift */; };
 		19FE0C532068D7CE002FEBF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19FE0C512068D7CE002FEBF4 /* Main.storyboard */; };
@@ -199,6 +200,7 @@
 
 /* Begin PBXFileReference section */
 		195B5086206A193C008D711C /* Rx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Rx.xcodeproj; path = ../RxSwift/Rx.xcodeproj; sourceTree = "<group>"; };
+		195B50D1206A227F008D711C /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		19FE0C4A2068D7CE002FEBF4 /* RxSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19FE0C4D2068D7CE002FEBF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		19FE0C4F2068D7CE002FEBF4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				19FE0C4D2068D7CE002FEBF4 /* AppDelegate.swift */,
+				195B50D1206A227F008D711C /* TabViewController.swift */,
 				19FE0C4F2068D7CE002FEBF4 /* ViewController.swift */,
 				19FE0C512068D7CE002FEBF4 /* Main.storyboard */,
 				19FE0C542068D7CE002FEBF4 /* Assets.xcassets */,
@@ -511,6 +514,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				195B50D2206A227F008D711C /* TabViewController.swift in Sources */,
 				19FE0C502068D7CE002FEBF4 /* ViewController.swift in Sources */,
 				19FE0C4E2068D7CE002FEBF4 /* AppDelegate.swift in Sources */,
 			);

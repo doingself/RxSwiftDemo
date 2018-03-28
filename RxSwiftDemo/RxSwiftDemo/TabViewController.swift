@@ -40,15 +40,14 @@ class TabViewController: UIViewController {
         tabView.register(UITableViewCell.self, forCellReuseIdentifier: "cellid")
         
         // rx.items(cellIdentifier:）:这是 Rx 基于 cellForRowAt 数据源方法的一个封装。传统方式中我们还要有个 numberOfRowsInSection 方法，使用 Rx 后就不再需要了（Rx 已经帮我们完成了相关工作）
-        datas.bind(to: tabView.rx.items(cellIdentifier:"cellid")) { _, music, cell in
-            cell.textLabel?.text = music
+        datas.bind(to: tabView.rx.items(cellIdentifier:"cellid")) { i, v, cell in
+            cell.textLabel?.text = "\(i) - \(v)"
             }.disposed(by: disposeBag)
-        
         
         // tab 点击
         // rx.modelSelected： 这是 Rx 基于 UITableView 委托回调方法 didSelectRowAt 的一个封装。
-        tabView.rx.modelSelected(String.self).subscribe(onNext: { music in
-            print("你选中的歌曲信息【\(music)】")
+        tabView.rx.modelSelected(String.self).subscribe(onNext: { event in
+            print("选中 -> \(event)")
         }).disposed(by: disposeBag)
         
     }

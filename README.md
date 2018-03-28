@@ -225,7 +225,8 @@ http://www.hangge.com/blog/cache/detail_1943.html
 http://www.hangge.com/blog/cache/detail_1940.html
 
 ## UI
-http://www.hangge.com/blog/cache/detail_1963.html
++ label http://www.hangge.com/blog/cache/detail_1963.html
++ textfield textview http://www.hangge.com/blog/cache/detail_1964.html
 
 # TODO
 接下来,我已经开始看不懂了....😂😂😂😂

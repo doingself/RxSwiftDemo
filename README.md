@@ -21,11 +21,81 @@ Rx 可以简化异步编程方法，并提供更优雅的数据绑定。让我�
 + `Observable<Int>.error()` 一个不做任何操作，而是直接发送一个错误的 Observable 序列。
 + `create` 和 `deferred` 参数为 block
 + `Observable<Int>.interval(1, scheduler: MainScheduler.instance)` 每1秒发送一次，并且是在主线程（MainScheduler）发送。interval创建的 Observable 序列每隔一段设定的时间，会发出一个索引数的元素。而且它会一直发送下去。
-+ `Observable<Int>.timer(5, scheduler: MainScheduler.instance)` 5秒种后发出唯一的一个元素0
-+ `Observable<Int>.timer(5, period: 1, scheduler: MainScheduler.instance)` 延时5秒种后，每隔1秒钟发出一个元素
++ `Observable<Int>.timer(5, scheduler: MainScheduler.instance)` 延时5秒种后, 发出唯一的一个元素0
++ `Observable<Int>.timer(5, period: 2, scheduler: MainScheduler.instance)` 延时5秒种后，每隔2秒钟发出一个元素
 
+### 订阅 Observable
 
++ `subscribe(_ on: @escaping (RxSwift.Event<Self.E>) -> Swift.Void) -> Disposable` 订阅了一个 Observable 对象，该方法的 block 的回调参数就是被发出的 event 事件
++ `subscribe(onNext: ((Self.E) -> Swift.Void)? = default, onError: ((Error) -> Swift.Void)? = default, onCompleted: (() -> Swift.Void)? = default, onDisposed: (() -> Swift.Void)? = default) -> Disposable` 可以只处理 onNext
 
+### doOn 监听生命周期
+
+一个 Observable 序列被创建出来后它不会马上就开始被激活从而发出 Event，而是要等到它被某个人订阅了才会激活它。激活之后要一直等到它发出了 .error 或者 .completed 的 event 后，它才被终结。
+
+doOn 方法来监听事件的生命周期，它会在每一次事件发送前被调用。参数同subscribe
+
+```
+let obs = Observable.of(1,2,3)
+        
+obs.do(onNext: { (a) in
+	    print("do onNext \(a)")
+	}, onError: { (e) in
+	    
+	}, onCompleted: {
+	    print("do onCompleted")
+	}, onSubscribe: {
+	    print("do onSubscribe")
+	}, onSubscribed: {
+	    print("do onSubscribed")
+	}, onDispose: {
+	    print("do onDispose")
+	})
+	.subscribe(onNext: { (element: Int) in
+	    print("subscribe onNext \(element)")
+	}, onError: { (err: Error) in
+	    print(err)
+	}, onCompleted: {
+	    print("subscribe onCompleted")
+	}, onDisposed: {
+	    print("subscribe onDisposed")
+	})
+```
+
+```
+do onSubscribe
+do onSubscribed
+do onNext 1
+subscribe onNext 1
+do onNext 2
+subscribe onNext 2
+do onNext 3
+subscribe onNext 3
+do onCompleted
+subscribe onCompleted
+subscribe onDisposed
+do onDispose
+```
+
+### Observable 的销毁
+
++ `sub.disposed(by: DisposeBag())` DisposeBag 来管理多个订阅行为的销毁
++ `sub.dispose()` 方法把这个订阅给销毁掉
+
+## Observer 观察者
+
+观察者（Observer）的作用就是监听事件，然后对这个事件做出响应。
+
+### 创建观察者
+
+http://www.hangge.com/blog/cache/detail_1941.html
+
++ `subscribe` + block
++ `bind` + block
++ `AnyObserver` + subscribe / bindTo
++ `Binder` + subscribe / bindTo
+
+接下来,我已经开始看不懂了....😂😂😂😂
 
 
 # RxSwiftDemo

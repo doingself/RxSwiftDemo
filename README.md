@@ -92,9 +92,142 @@ http://www.hangge.com/blog/cache/detail_1941.html
 
 + `subscribe` + block
 + `bind` + block
-+ `AnyObserver` + subscribe / bindTo
-+ `Binder` + subscribe / bindTo
++ `AnyObserver` + subscribe / bindTo, AnyObserver 可以用来描叙任意一种观察者。
++ `Binder` + subscribe / bindTo, Binder是在给定 Scheduler 上执行（默认 MainScheduler）不会处理错误事件 `Binder(label){(lab, val) in ... }`
 
+### 自定义可绑定属性
+
+```
+import UIKit
+import RxSwift
+import RxCocoa
+
+// 对 Reactive 进行扩展
+extension Reactive where Base: UILabel {
+	// 给 UILabel 增加了一个 fontSize 可绑定属性。
+    public var fontSize: Binder<CGFloat> {
+        return Binder(self.base) { lab, val in
+            lab.font = UIFont.systemFont(ofSize: val)
+        }
+    }
+}
+
+//绑定属性
+.bind(to: label.rx.fontSize)
+```
+
+## Subjects
+
+http://www.hangge.com/blog/cache/detail_1929.html
+
+Subjects 既是订阅者，也是 Observable：能够动态地接收新的值，有了新的值之后，就会通过 Event 将新值发出给他的所有订阅者。
+
+### PublishSubject
+
+`let subject = PublishSubject<String>()`
+
+PublishSubject 是最普通的 Subject，它不需要初始值就能创建。
+PublishSubject 的订阅者从他们开始订阅的时间点起，可以收到订阅后 Subject 发出的新 Event，而不会收到他们在订阅前已发出的 Event。
+
+
+### BehaviorSubject
+
+`let subject = BehaviorSubject(value: "111")`
+
+BehaviorSubject 需要通过一个默认初始值来创建。
+当一个订阅者来订阅它的时候，这个订阅者会立即收到 BehaviorSubjects 上一个发出的 event。之后就跟正常的情况一样，它也会接收到 BehaviorSubject 之后发出的新的 event。
+
+### ReplaySubject
+
+`let subject = ReplaySubject<String>.create(bufferSize: 2)`
+
+ReplaySubject 在创建时候需要设置一个 bufferSize，表示它对于它发送过的 event 的缓存个数。subscriber 订阅了这个 ReplaySubject，那么这个 subscriber 就会立即收到前面缓存的 .next 的 event。
+如果一个 subscriber 订阅已经结束的 ReplaySubject，除了会收到缓存的 .next 的 event 外，还会收到那个终结的 .error 或者 .complete 的 event。
+
+### Variable
+
+`let variable = Variable("111")`
+
+Variable 其实就是对 BehaviorSubject 的封装，所以它也必须要通过一个默认的初始值进行创建。
+Variable 具有 BehaviorSubject 的功能，能够向它的订阅者发出上一个 event 以及之后新创建的 event。
+
+Variable 还把会把当前发出的值保存为自己的状态。同时它会在销毁时自动发送 .complete 的 event，不需要也不能手动给 Variables 发送 completed 或者 error 事件来结束它。
+简单地说就是 Variable 有一个 value 属性，我们改变这个 value 属性的值就相当于调用一般 Subjects 的 onNext() 方法，而这个最新的 onNext() 的值就被保存在 value 属性里了，直到我们再次修改它。
+
+Variables 本身没有 subscribe() 方法，但是所有 Subjects 都有一个 asObservable() 方法。我们可以使用这个方法返回这个 Variable 的 Observable 类型，拿到这个 Observable 类型我们就能订阅它了。
+
+
+## 操作符
+
+### 变换操作
+http://www.hangge.com/blog/cache/detail_1932.html
+
+变换操作指的是对原始的 Observable 序列进行一些转换，类似于 Swift 中 CollectionType 的各种转换。
+
++ `buffer` 缓冲组合，第一个参数是缓冲时间，第二个参数是缓冲个数，第三个参数是线程。
++ `window` 实时发出元素序列
++ `map` 把原来的 Observable 序列转变为一个新的 Observable 序列
++ `flatMap` 降维成一个 Observable 序列
++ `flatMapLatest` 与 flatMap 的唯一区别是：flatMapLatest 只会接收最新的 value 事件
++ concatMap
++ scan
++ groupBy
+
+### 过滤操作
+http://www.hangge.com/blog/cache/detail_1933.html
+
++ `filter` 过滤
++ `distinctUntilChanged` 过滤掉连续重复的事件
++ `single` 
++ `elementAt` 只处理指定位置的事件
++ `ignoreElements` 忽略掉所有的元素，只发出 error 或 completed 事件
++ `take` 仅发送 Observable 序列中的前 n 个事件，在满足数量之后会自动 .completed
++ `takeLast` 仅发送 Observable 序列中的后 n 个事件
++ `skip` 跳过源 Observable 序列发出的前 n 个事件。
++ `sample`
++ `debounce` 过滤掉高频产生的元素, 常用在用户输入的时候，不需要每个字母敲进去都发送一个事件，而是稍等一下取最后一个事件。
+
+### 条件操作
+http://www.hangge.com/blog/cache/detail_1948.html
+
+### 结合操作
+http://www.hangge.com/blog/cache/detail_1930.html
+
+### 算数、以及聚合操作
+http://www.hangge.com/blog/cache/detail_1934.html
+
+### 连接操作
+http://www.hangge.com/blog/cache/detail_1935.html
+
+### 其他操作
+http://www.hangge.com/blog/cache/detail_1950.html
+
+### 错误处理操作
+http://www.hangge.com/blog/cache/detail_1936.html
+
+### 调试操作
+http://www.hangge.com/blog/cache/detail_1937.html
+
+## 特征序列 Traits
+
++ Single
++ Completable
++ Maybe
++ Driver
++ ControlProperty
++ ControlEvent
+
+http://www.hangge.com/blog/cache/detail_1937.html
+http://www.hangge.com/blog/cache/detail_1942.html
+http://www.hangge.com/blog/cache/detail_1943.html
+
+## 调度器 Schedulers
+http://www.hangge.com/blog/cache/detail_1940.html
+
+## UI
+http://www.hangge.com/blog/cache/detail_1963.html
+
+# TODO
 接下来,我已经开始看不懂了....😂😂😂😂
 
 

@@ -21,9 +21,10 @@ class TabViewController: UIViewController {
     /// 一个可观察序列对象（Observable Squence）
     private lazy var datas: Observable<[String]> = {
         let arr = Observable.just([
-            "11",
-            "22",
-            "33"
+            "item selected",
+            "model selected",
+            "item deselected"
+            
             ])
         return arr
     }()
@@ -38,6 +39,7 @@ class TabViewController: UIViewController {
         tabView = UITableView(frame: self.view.bounds, style: .plain)
         self.view.addSubview(tabView)
         tabView.register(UITableViewCell.self, forCellReuseIdentifier: "cellid")
+        tabView.isEditing = true
         
         // rx.items(cellIdentifier:）:这是 Rx 基于 cellForRowAt 数据源方法的一个封装。传统方式中我们还要有个 numberOfRowsInSection 方法，使用 Rx 后就不再需要了（Rx 已经帮我们完成了相关工作）
         datas.bind(to: tabView.rx.items(cellIdentifier:"cellid")) { i, v, cell in
@@ -45,11 +47,42 @@ class TabViewController: UIViewController {
             }.disposed(by: disposeBag)
         
         // tab 点击
+        
+        // 选中的索引
+        tabView.rx.itemSelected.subscribe { (event) in
+            print("item selected : \(event)")
+            }.disposed(by: disposeBag)
+        
         // rx.modelSelected： 这是 Rx 基于 UITableView 委托回调方法 didSelectRowAt 的一个封装。
         tabView.rx.modelSelected(String.self).subscribe(onNext: { event in
-            print("选中 -> \(event)")
-        }).disposed(by: disposeBag)
+                print("model selected : \(event)")
+            }).disposed(by: disposeBag)
         
+        // 同时获取 select indexPath model
+        Observable.zip(tabView.rx.itemSelected, tabView.rx.modelSelected(String.self))
+            .bind { indexPath, item in
+                print("observable zip item selected:\(indexPath) model selected:\(item)")
+            }
+            .disposed(by: disposeBag)
+        
+        // 取消选中 itemDeselected modelDeselected
+        tabView.rx.itemDeselected.subscribe(onNext: {i in
+                print("item deselected: \(i)")
+            })
+            .disposed(by: disposeBag)
+        
+        // 删除 itemDeleted modelDeleted
+        tabView.rx.modelDeleted(String.self).subscribe(onNext: {event in
+                print("model deleted: \(event)")
+            }).disposed(by: disposeBag)
+        
+        // 移动 itemMoved
+        tabView.rx.itemMoved.subscribe(onNext: { (from: IndexPath, to: IndexPath) in
+                print("item moved from:\(from) to:\(to)")
+            }).disposed(by: disposeBag)
+        
+        // 新增单元格 tabView.rx.itemInserted.subscribe(...)
+        // 点击右侧按钮事件 tabView.rx.itemAccessoryButtonTapped.subscribe(...)
     }
 
     override func didReceiveMemoryWarning() {

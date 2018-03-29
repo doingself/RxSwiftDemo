@@ -9,6 +9,7 @@ Rx 可以简化异步编程方法，并提供更优雅的数据绑定。让我�
 还需要有一个 Observer（订阅者）来订阅 Observable<T> 不时发出的 Event。
 
 ### 初始化 Observable
+http://www.hangge.com/blog/cache/detail_1922.html
 
 + `Observable<Int>.empty()` 创建一个空内容的 Observable 序列
 + `Observable<Int>.just(5)` 通过传入一个默认值来初始化
@@ -190,47 +191,100 @@ http://www.hangge.com/blog/cache/detail_1933.html
 ### 条件操作
 http://www.hangge.com/blog/cache/detail_1948.html
 
++ `amb`
++ `takeWhile`
++ `takeUntil`
++ `skipWhile`
++ `skipUntil`
+
 ### 结合操作
 http://www.hangge.com/blog/cache/detail_1930.html
+
++ `startWith`
++ `merge`
++ `zip`
++ `combineLatest`
++ `withLatestFrom`
++ `switchLatest`
 
 ### 算数、以及聚合操作
 http://www.hangge.com/blog/cache/detail_1934.html
 
++ `toArray`
++ `reduce`
++ `concat`
+
 ### 连接操作
 http://www.hangge.com/blog/cache/detail_1935.html
+
++ publish
++ replay
++ multicast
++ refCount
++ share
 
 ### 其他操作
 http://www.hangge.com/blog/cache/detail_1950.html
 
++ delay
++ delaySubscription
++ materialize
++ dematerialize
++ timeout
++ using
+
 ### 错误处理操作
 http://www.hangge.com/blog/cache/detail_1936.html
+
++ catchErrorJustReturn
++ catchError
++ retry
 
 ### 调试操作
 http://www.hangge.com/blog/cache/detail_1937.html
 
++ debug
++ RxSwift.Resources.total
+
 ## 特征序列 Traits
 
+http://www.hangge.com/blog/cache/detail_1939.html
 + Single
 + Completable
 + Maybe
+
+http://www.hangge.com/blog/cache/detail_1942.html
 + Driver
+
+http://www.hangge.com/blog/cache/detail_1943.html
 + ControlProperty
 + ControlEvent
-
-http://www.hangge.com/blog/cache/detail_1937.html
-http://www.hangge.com/blog/cache/detail_1942.html
-http://www.hangge.com/blog/cache/detail_1943.html
 
 ## 调度器 Schedulers
 http://www.hangge.com/blog/cache/detail_1940.html
 
+调度器（Schedulers）是 RxSwift 实现多线程的核心模块，它主要用于控制任务在哪个线程或队列运行。
+
++ CurrentThreadScheduler：表示当前线程 Scheduler。（默认使用这个）
++ MainScheduler：表示主线程。如果我们需要执行一些和 UI 相关的任务，就需要切换到该 Scheduler 运行。
++ SerialDispatchQueueScheduler：封装了 GCD 的串行队列。如果我们需要执行一些串行任务，可以切换到这个 Scheduler 运行。
++ ConcurrentDispatchQueueScheduler：封装了 GCD 的并行队列。如果我们需要执行一些并发任务，可以切换到这个 Scheduler 运行。
++ OperationQueueScheduler：封装了 NSOperationQueue。
+
+
 ## UI
 + label http://www.hangge.com/blog/cache/detail_1963.html
 + textfield textview http://www.hangge.com/blog/cache/detail_1964.html
++ button http://www.hangge.com/blog/cache/detail_1969.html
++ switch segmentController http://www.hangge.com/blog/cache/detail_1970.html
++ activityIndicatorView http://www.hangge.com/blog/cache/detail_1971.html
++ slider stepper http://www.hangge.com/blog/cache/detail_1972.html
++ 双向绑定 http://www.hangge.com/blog/cache/detail_1974.html
++ UIGestureRecognizer http://www.hangge.com/blog/cache/detail_1975.html
++ datePicker http://www.hangge.com/blog/cache/detail_1973.html
++ tableView http://www.hangge.com/blog/cache/detail_1976.html
 
 # TODO
-接下来,我已经开始看不懂了....😂😂😂😂
-
 
 # RxSwiftDemo
 
@@ -253,4 +307,5 @@ import RxCocoa
 
 鸣谢
 
++ 航歌 - 做最好的开发者知识平台
 + http://www.hangge.com/blog/cache/detail_1917.html

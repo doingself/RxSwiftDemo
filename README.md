@@ -1,5 +1,12 @@
 # RxSwiftDemo
 
++ TabViewController
+	+ cell for row 
+	+ 点击
+	+ 移动
+	+ 删除
++ ViewController label textField textView button
+
 ## 集成 RxSwift
 
 1. 把现有的 Rx.xcodeproj 拖拽至你的工程中
@@ -304,7 +311,10 @@ http://www.hangge.com/blog/cache/detail_1940.html
 	+ 单元格编辑 http://www.hangge.com/blog/cache/detail_1995.html
 	+ 多类型单元格 http://www.hangge.com/blog/cache/detail_1996.html
 + collectionView http://www.hangge.com/blog/cache/detail_2004.html
++ PickerView(RxDataSources) http://www.hangge.com/blog/cache/detail_1983.html
 
+
++ URLSession http://www.hangge.com/blog/cache/detail_2010.html
 
 
 # TODO
